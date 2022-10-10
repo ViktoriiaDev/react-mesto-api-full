@@ -1,0 +1,8 @@
+.popup__window_image {
+  padding: 0;
+  box-sizing: border-box;
+  width: unset;
+  border-radius: unset;
+  max-width: unset;
+  background-color: transparent;
+}

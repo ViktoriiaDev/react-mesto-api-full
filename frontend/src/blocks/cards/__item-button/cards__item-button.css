@@ -1,0 +1,16 @@
+.cards__item-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  width: 22px;
+  height: 19px;
+  background-image: url(../../../images/heart.svg);
+  cursor: pointer;
+}
+
+.cards__item-button:hover {
+  opacity: .4;
+}
+
