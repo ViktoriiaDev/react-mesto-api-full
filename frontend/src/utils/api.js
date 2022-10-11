@@ -1,3 +1,7 @@
+const { NODE_ENV } = process.env;
+
+export const baseUrl = NODE_ENV === 'production' ? 'https://api.viktoriiadev.nomoredomains.icu/' : "http://localhost:3001";
+
 class Api {
     constructor(options) {
       this._baseUrl = options.baseUrl;
@@ -13,6 +17,7 @@ class Api {
   
     getInitialCards() {
       return fetch(`${this._baseUrl}/cards`, {
+        
         headers: this._headers
       })
         .then(this._getResponseData)
@@ -21,6 +26,7 @@ class Api {
   
     getProfileInfo() {
       return fetch(`${this._baseUrl}/users/me`, {
+        credentials: "include",
         headers: this._headers
       })
         .then(this._getResponseData)
@@ -28,6 +34,8 @@ class Api {
   
     sendUserInfo(name, about) {
       return fetch(`${this._baseUrl}/users/me`, {
+        credentials: "include",
+        
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({
@@ -41,6 +49,8 @@ class Api {
   
     addCard(name, link) {
       return fetch(`${this._baseUrl}/cards`, {
+        credentials: "include",
+        
         method: 'POST',
         headers: this._headers,
         body: JSON.stringify({
@@ -54,6 +64,8 @@ class Api {
   
     deleteCard(cardId) {
       return fetch(`${this._baseUrl}/cards/${cardId}`, {
+        credentials: "include",
+        
         method: 'DELETE',
         headers: this._headers,
       })
@@ -62,6 +74,8 @@ class Api {
   
     like(cardId) {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        credentials: "include",
+
         method: 'PUT',
         headers: this._headers,
       })
@@ -70,6 +84,8 @@ class Api {
   
     deleteLike(cardId) {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        credentials: "include",
+        
         method: 'DELETE',
         headers: this._headers,
       })
@@ -83,6 +99,8 @@ class Api {
   
     changeAvatar(avatar) {
       return fetch(`${this._baseUrl}/users/me/avatar`, {
+        credentials: "include",
+        
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({
@@ -93,9 +111,9 @@ class Api {
   
     }
   }
-  
+
   export const api = new Api({
-    baseUrl: 'https://api.viktoriiadev.nomoredomains.icu',
+    baseUrl,
     headers: {
       'Content-Type': 'application/json'
     }

@@ -110,7 +110,6 @@ module.exports.patchUserAvatar = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-
   return User.findUserByCredentials(email, password)
     .then((user) => {
       // создадим токен
@@ -120,9 +119,8 @@ module.exports.login = (req, res, next) => {
       res.cookie('token', token, {
         maxAge: 604800000,
         httpOnly: true,
-        sameSite: true,
+        secure: false,
       });
-      // вернём токен
       res.send({});
     })
     .catch((error) => {

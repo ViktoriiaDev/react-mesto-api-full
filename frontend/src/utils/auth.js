@@ -1,3 +1,5 @@
+import {baseUrl} from './api'
+
 const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
@@ -5,7 +7,7 @@ const checkResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const BASE_URL = "https://auth.nomoreparties.co";
+export const BASE_URL = baseUrl;
 
 export const singup = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -29,10 +31,10 @@ export const singin = (email, password) => {
   })
     .then(checkResponse)
     .then((data) => {
-      if (data) {
-        localStorage.setItem("jwt", data.token);
-        return data;
-      }
+      // if (data) {
+      //   localStorage.setItem("jwt", data.token);
+      //   return data;
+      // }
     });
 };
 

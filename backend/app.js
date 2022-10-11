@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
@@ -9,12 +10,6 @@ const { login, createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 require('dotenv').config();
-
-const allowedCors = [
-  'https://frontend.viktoriiadev.nomoredomains.icu',
-  'http://frontend.viktoriiadev.nomoredomains.icu',
-  'localhost:3000',
-];
 
 const app = express();
 
@@ -33,19 +28,8 @@ mongoose.connect(
 );
 
 app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-  const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
-  // проверяем, что источник запроса есть среди разрешённых
-  if (allowedCors.includes(origin)) {
-    // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  next();
-});
-
 app.use(requestLogger); // подключаем логгер запросов
-
+app.use(cors());
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -92,4 +76,4 @@ app.use((error, req, res, next) => {
   next();
 });
 
-app.listen(3000);
+app.listen(3001);
