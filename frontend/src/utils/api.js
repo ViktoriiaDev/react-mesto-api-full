@@ -1,6 +1,6 @@
 const { NODE_ENV } = process.env;
 
-export const baseUrl = NODE_ENV === 'production' ? 'https://api.viktoriiadev.nomoredomains.icu/' : "http://localhost:3001";
+export const baseUrl = NODE_ENV === 'production' ? 'https://api.viktoriiadev.nomoredomains.icu' : "http://localhost:3001";
 
 class Api {
     constructor(options) {
