@@ -44,16 +44,3 @@ export const singin = (email, password) => {
       }
     });
 };
-
-export const getUser = () => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: getToken(),
-    },
-  })
-    .then(checkResponse)
-    .then((data) => data);
-};

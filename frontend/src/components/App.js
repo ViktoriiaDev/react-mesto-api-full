@@ -6,7 +6,6 @@ import MainPage from "./MainPage";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
-import { getUser } from "../utils/auth";
 
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 import { api } from "../utils/api.js";
@@ -32,11 +31,12 @@ function App() {
   }, []);
 
   const fetchUser = () => {
-    getUser()
+    api.getProfileInfo()
       .then((res) => {
         if (res) {
           setLoggedIn(true);
           setEmail(res.email);
+          setСurrentUser(res)
           push("/");
         }
       })

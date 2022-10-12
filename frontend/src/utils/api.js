@@ -51,7 +51,6 @@ class Api {
         })
       })
         .then(this._getResponseData)
-  
     }
   
     addCard(name, link) {
