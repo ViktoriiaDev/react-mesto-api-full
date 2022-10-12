@@ -30,6 +30,7 @@ mongoose.connect(
 app.use(bodyParser.json());
 app.use(requestLogger); // подключаем логгер запросов
 app.use(cors());
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');

@@ -120,8 +120,13 @@ module.exports.login = (req, res, next) => {
         maxAge: 604800000,
         httpOnly: true,
         secure: false,
+        sameSite: 'none',
       });
-      res.send({});
+      res.send({
+        data: {
+          token,
+        },
+      });
     })
     .catch((error) => {
       if (error.name === 'Error') {

@@ -1,6 +1,7 @@
-const { NODE_ENV } = process.env;
+import { getToken } from "./auth"
 
-export const baseUrl = NODE_ENV === 'production' ? 'https://api.viktoriiadev.nomoredomains.icu' : "http://localhost:3001";
+const { NODE_ENV } = process.env;
+const baseUrl = NODE_ENV === 'production' ? 'https://api.viktoriiadev.nomoredomains.icu' : "http://localhost:3001";
 
 class Api {
     constructor(options) {
@@ -8,17 +9,20 @@ class Api {
       this._headers = options.headers;
     }
   
-    _getResponseData(res) {
+    async _getResponseData(res) {
       if (res.ok) {
-        return res.json();
+        const result = await res.json();
+        return result.data;
       }
       return Promise.reject(`Ошибка: ${res.status}`);
     }
   
     getInitialCards() {
       return fetch(`${this._baseUrl}/cards`, {
-        
-        headers: this._headers
+        headers: {
+         ...this._headers,
+         Authorization: getToken(),
+        }
       })
         .then(this._getResponseData)
   
@@ -26,18 +30,21 @@ class Api {
   
     getProfileInfo() {
       return fetch(`${this._baseUrl}/users/me`, {
-        credentials: "include",
-        headers: this._headers
+        headers: {
+          ...this._headers,
+          Authorization: getToken(),
+        }
       })
         .then(this._getResponseData)
     }
   
     sendUserInfo(name, about) {
       return fetch(`${this._baseUrl}/users/me`, {
-        credentials: "include",
-        
         method: 'PATCH',
-        headers: this._headers,
+        headers: {
+          ...this._headers,
+          Authorization: getToken(),
+        },
         body: JSON.stringify({
           name: name,
           about: about
@@ -49,10 +56,11 @@ class Api {
   
     addCard(name, link) {
       return fetch(`${this._baseUrl}/cards`, {
-        credentials: "include",
-        
         method: 'POST',
-        headers: this._headers,
+        headers: {
+          ...this._headers,
+          Authorization: getToken(),
+        },
         body: JSON.stringify({
           name: name,
           link: link
@@ -64,30 +72,33 @@ class Api {
   
     deleteCard(cardId) {
       return fetch(`${this._baseUrl}/cards/${cardId}`, {
-        credentials: "include",
-        
         method: 'DELETE',
-        headers: this._headers,
+        headers: {
+          ...this._headers,
+          Authorization: getToken(),
+        },
       })
         .then(this._getResponseData)
     }
   
     like(cardId) {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-        credentials: "include",
-
         method: 'PUT',
-        headers: this._headers,
+        headers: {
+          ...this._headers,
+          Authorization: getToken(),
+        },
       })
         .then(this._getResponseData)
     }
   
     deleteLike(cardId) {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-        credentials: "include",
-        
         method: 'DELETE',
-        headers: this._headers,
+        headers: {
+          ...this._headers,
+          Authorization: getToken(),
+        },
       })
         .then(this._getResponseData)
   
@@ -99,10 +110,11 @@ class Api {
   
     changeAvatar(avatar) {
       return fetch(`${this._baseUrl}/users/me/avatar`, {
-        credentials: "include",
-        
         method: 'PATCH',
-        headers: this._headers,
+        headers: {
+          ...this._headers,
+          Authorization: getToken(),
+        },
         body: JSON.stringify({
           avatar: avatar,
         })

@@ -1,11 +1,19 @@
-import {baseUrl} from './api'
+const { NODE_ENV } = process.env;
 
-const checkResponse = (res) => {
+const baseUrl =
+  NODE_ENV === "production"
+    ? "https://api.viktoriiadev.nomoredomains.icu"
+    : "http://localhost:3001";
+
+const checkResponse = async (res) => {
   if (res.ok) {
-    return res.json();
+    const result = await res.json();
+    return result.data
   }
   return Promise.reject(`Ошибка: ${res.status}`);
-}
+};
+
+export const getToken = () => `Bearer ${localStorage.getItem("jwt")}`;
 
 export const BASE_URL = baseUrl;
 
@@ -17,8 +25,7 @@ export const singup = (email, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  })
-    .then(checkResponse)
+  }).then(checkResponse);
 };
 export const singin = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
@@ -31,10 +38,10 @@ export const singin = (email, password) => {
   })
     .then(checkResponse)
     .then((data) => {
-      // if (data) {
-      //   localStorage.setItem("jwt", data.token);
-      //   return data;
-      // }
+      if (data) {
+        localStorage.setItem("jwt", data.token);
+        return data;
+      }
     });
 };
 
@@ -44,7 +51,7 @@ export const getUser = () => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      Authorization: getToken(),
     },
   })
     .then(checkResponse)
