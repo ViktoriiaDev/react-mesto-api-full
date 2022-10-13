@@ -30,7 +30,7 @@ const Register = () => {
   function handleSubmit(e) {
     e.preventDefault();
     singup(email, password).then((res) => {
-      if (res.data) {
+      if (res) {
         setTooltipState({
           isOpen: true,
           isSuccess: true
@@ -39,8 +39,8 @@ const Register = () => {
     })
     .catch((e) => {
       setTooltipState({
-        isOpen: true,
-        isSuccess: false
+        isSuccess: false,
+        isOpen: true
       })
     });
   }

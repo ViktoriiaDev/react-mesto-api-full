@@ -48,6 +48,7 @@ const Login = ({ setLoggedIn, fetchUser }) => {
           onChange={handleChangePassword}
           placeholder="Пароль"
           name="password"
+          type="password"
           className="unauth__form-input"
           required
         />

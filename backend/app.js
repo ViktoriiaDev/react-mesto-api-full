@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,7 +10,7 @@ const cardRoute = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-require('dotenv').config();
+const NotFoundError = require('./errors/NotFoundError');
 
 const app = express();
 
@@ -60,7 +61,9 @@ app.use(auth);
 app.use('/users', userRoute);
 app.use('/cards', cardRoute);
 
-app.use('/', (req, res) => res.status(404).send({ message: 'Страница не найдена' }));
+app.use('/', (req, res, next) => {
+  next(new NotFoundError('Страница не найдена'));
+});
 
 app.use(errorLogger); // подключаем логгер ошибок
 
