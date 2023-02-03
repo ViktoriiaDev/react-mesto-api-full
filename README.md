@@ -15,6 +15,5 @@
 - Nginx.
 
 ## Инструкции
-- IP 51.250.74.96
-- Frontend https://frontend.viktoriiadev.nomoredomains.icu
-- Backend https://api.viktoriiadev.nomoredomains.icu
+- npm build (сборка для продакшена)
+- npm dev (сборка для разработки)
